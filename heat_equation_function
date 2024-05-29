@@ -3,15 +3,17 @@ function [u,t,x] = heat_eq(D,T,dx,dt,f0,length)
 %dx tells us how far we want to see the heat travel and dt shows us over
 %how long
 x = linspace(0,length,dx);
-dx = length/dx-1;
+nx = length(x);
+dx = length / (nx-1);
 
 %finding how much changes between each step
 t = linspace(0,T,dt);
-dt = T/dt-1;
+nt = length(t);
+dt = T / (nt - 1);
 
 %dt and dx are acting like our nsteps and we want our x and t to go from 0
 %to where the "rod" ends
-u = zeros(dx,dt);
+u = zeros(nx,nt);
 u(:,1) = f0(x);
 %creating space for our solution by creating an empty matrix and specifying
 %the initial condition
