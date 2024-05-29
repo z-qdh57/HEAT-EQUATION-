@@ -1,0 +1,29 @@
+function [u,t,x] = heat_eq(D,T,dx,dt,f0,length)
+%D is the diffusion constant and T is total time
+%dx tells us how far we want to see the heat travel and dt shows us over
+%how long
+x = linspace(0,length,dx);
+dx = length/dx-1;
+
+%finding how much changes between each step
+t = linspace(0,T,dt);
+dt = T/dt-1;
+
+%dt and dx are acting like our nsteps and we want our x and t to go from 0
+%to where the "rod" ends
+u = zeros(dx,dt);
+u(:,1) = f0(x);
+%creating space for our solution by creating an empty matrix and specifying
+%the initial condition
+
+M = diag(ones(dx-1, 1), 1)-2*eye(dx)+diag(ones(dx-1, 1), -1);
+% translating the centered difference approximation into code
+M1 = D*dt/(dx^2)*M;
+M = eye(dx)-M1*M;
+% all of this will give you a finite difference matrix 
+
+for j = 1:dt
+    u(:, j) = (M)\u(:, j-1);
+    t(j+1) = t(j) + nt;
+    % implicit update
+end
